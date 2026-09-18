@@ -115,17 +115,21 @@ h1, h2, h3 {
 # FIREBASE INITIALIZATION
 # ============================================================
 
+
 @st.cache_resource
 def initialize_firebase():
 
     if not firebase_admin._apps:
 
-        cred = credentials.Certificate("serviceAccountKey.json")
+        firebase_config = dict(
+            st.secrets["firebase_service_account"]
+        )
+
+        cred = credentials.Certificate(firebase_config)
 
         firebase_admin.initialize_app(cred)
 
     return firestore.client()
-
 
 try:
 
